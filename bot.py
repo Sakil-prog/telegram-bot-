@@ -4,8 +4,8 @@ from openai import OpenAI
 import os 
 
 # ── YOUR KEYS ──────────────────────────────────────────
-OPENROUTER_API_KEY =os.getenv("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")
-TELEGRAM_TOKEN = os.getenv("8688450695:AAEsKlXZ-SBYa1wgnj_As6Lb7YxNfLhSh0k")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
 # ── SETUP CLIENT ───────────────────────────────────────
 client = OpenAI(
