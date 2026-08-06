@@ -6,7 +6,7 @@ import os
 # ── YOUR KEYS ──────────────────────────────────────────
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-OWNER_CHAT_ID = os.getenv("5373827517")
+OWNER_CHAT_ID = int(os.getenv("OWNER_CHAT_ID"))
 
 # ── SETUP CLIENT ───────────────────────────────────────
 client = OpenAI(
