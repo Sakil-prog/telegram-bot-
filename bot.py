@@ -1,10 +1,12 @@
 import os
+import json
 import gspread
 from google.oauth2.service_account import Credentials
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 from openai import OpenAI
 from datetime import datetime
+
 
 # ── KEYS ───────────────────────────────────────────────
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
@@ -14,7 +16,8 @@ OWNER_CHAT_ID = int(os.getenv("OWNER_CHAT_ID", "5373827517"))
 # ── GOOGLE SHEETS SETUP ────────────────────────────────
 SHEET_ID = "1YFZKjEzYenJK8ZnIAmvOuvXhwNYOZ6Q6rKJNmfjLVjQ"
 SCOPES = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_file("credentials.json", scopes=SCOPES)
+credentials_json = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
+creds = Credentials.from_service_account_info(credentials_json, scopes=SCOPES)
 gc = gspread.authorize(creds)
 sheet = gc.open_by_key(SHEET_ID).sheet1
 
