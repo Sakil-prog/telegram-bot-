@@ -6,6 +6,7 @@ import os
 # ── YOUR KEYS ──────────────────────────────────────────
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+OWNER_CHAT_ID = os.getenv("5373827517")
 
 # ── SETUP CLIENT ───────────────────────────────────────
 client = OpenAI(
@@ -37,6 +38,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message = update.message.text
+    customer_name = update.message.from_user.first_name
 
     response = client.chat.completions.create(
         model="meta-llama/llama-3.1-8b-instruct",
@@ -46,7 +48,20 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
     )
 
-    await update.message.reply_text(response.choices[0].message.content)
+    reply = response.choices[0].message.content
+    await update.message.reply_text(reply)
+
+    # Notify owner for every message
+    owner_message = (
+        f"📩 New Message!\n\n"
+        f"👤 Customer: {customer_name}\n"
+        f"💬 Message: {user_message}\n"
+        f"🤖 Bot replied: {reply}"
+    )
+    await context.bot.send_message(
+        chat_id=OWNER_CHAT_ID,
+        text=owner_message
+    )
 
 # ── RUN BOT ────────────────────────────────────────────
 def main():
